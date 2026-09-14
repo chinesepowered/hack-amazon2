@@ -1,17 +1,26 @@
 {
-  "name": "hack-amazon2",
+  "name": "bedtime-saga",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "vendor": "node scripts/vendor-ext-apps.mjs",
+    "dev": "node scripts/vendor-ext-apps.mjs && next dev",
+    "build": "node scripts/vendor-ext-apps.mjs && next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "@modelcontextprotocol/client": "^2.0.0",
+    "@modelcontextprotocol/core": "^2.0.0",
+    "@modelcontextprotocol/ext-apps": "^2.0.0",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@strands-agents/sdk": "^1.17.0",
+    "@vercel/blob": "^2.8.0",
     "next": "16.3.5",
+    "openai": "^7.15.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "zod": "^4.6.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
