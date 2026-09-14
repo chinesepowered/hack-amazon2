@@ -11,11 +11,11 @@
   :root { --ink:#2b2140; --paper:#fff4dc; --paper2:#f7e7c4; --amber:#ffb54c; --rose:#f2998c; --sage:#8fc0a0; --muted:#b9b3d6; }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; overflow: hidden; }
-  body { background: radial-gradient(circle at 50% 40%, #1a1f4d, #0a0d26 75%); color: var(--paper); font-family: Nunito, "Trebuchet MS", system-ui, sans-serif; }
+  body { background: #0c1030; color: var(--paper); font-family: Nunito, "Trebuchet MS", system-ui, sans-serif; }
   .serif { font-family: Fraunces, Georgia, serif; }
   .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
   .stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform: translate(-50%, -50%) scale(var(--s, 1)); }
-  .slide { position: absolute; inset: 0; display: none; overflow: hidden; }
+  .slide { position: absolute; inset: 0; display: none; overflow: hidden; background: radial-gradient(circle at 50% 40%, #1a1f4d, #0a0d26 75%); }
   .slide.on { display: block; animation: fade .6s ease both; }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
   .art { position: absolute; overflow: hidden; }
@@ -23,29 +23,29 @@
   .eyebrow { font-weight: 800; letter-spacing: .14em; text-transform: uppercase; font-size: 18px; color: var(--amber); }
   .chip { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #ffffff26; background: #ffffff10; padding: 10px 18px; border-radius: 999px; font-weight: 800; font-size: 19px; }
   .num { position: absolute; right: 56px; bottom: 36px; font-weight: 800; color: #ffffff55; font-size: 18px; }
-  .foot { position: absolute; left: 70px; bottom: 36px; color: #ffffff66; font-weight: 700; font-size: 17px; }
 
-  /* 1 cover */
-  #s1 .art { inset: 0; }
-  #s1 .veil { position: absolute; inset: 0; background: linear-gradient(90deg, #0b0f2cf5 0%, #0b0f2cd0 42%, #0b0f2c10 75%); }
-  #s1 .copy { position: absolute; left: 90px; top: 150px; width: 820px; }
+  /* 1 cover: art on the right, copy on a solid left panel */
+  #s1 { background: #10143a; }
+  #s1 .art { left: 620px; right: 0; top: 0; bottom: 0; }
+  #s1 .veil { position: absolute; inset: 0; background: linear-gradient(90deg, #10143a 0%, #10143a 38%, #10143acc 46%, #10143a00 62%); }
+  #s1 .copy { position: absolute; left: 90px; top: 150px; width: 800px; }
   #s1 h1 { font-size: 132px; line-height: .95; margin: 18px 0 26px; letter-spacing: -.02em; }
-  #s1 .hook { font-size: 40px; line-height: 1.25; margin: 0 0 36px; }
+  #s1 .hook { font-size: 38px; line-height: 1.28; margin: 0 0 36px; max-width: 700px; }
   #s1 .hook b { color: var(--amber); font-weight: 800; }
-  #s1 .chips { display: flex; gap: 12px; flex-wrap: wrap; }
+  #s1 .chips { display: flex; gap: 12px; flex-wrap: wrap; max-width: 700px; }
 
   /* 2 problem */
   #s2 { background: linear-gradient(180deg, var(--paper), var(--paper2)); color: var(--ink); }
   #s2 .copy { position: absolute; left: 90px; top: 90px; width: 900px; }
   #s2 h2 { font-size: 72px; line-height: 1.05; margin: 14px 0 34px; }
   #s2 .eyebrow { color: #a8662a; }
-  .stat { display: flex; gap: 26px; align-items: baseline; margin: 0 0 26px; }
-  .stat .big { font-family: Fraunces, Georgia, serif; font-size: 96px; font-weight: 700; color: #c2573f; min-width: 250px; line-height: 1; }
+  .stat { display: flex; gap: 30px; align-items: center; margin: 0 0 28px; }
+  .stat .big { font-family: Fraunces, Georgia, serif; font-size: 96px; font-weight: 700; color: #c2573f; width: 260px; flex: none; line-height: 1; }
   .stat p { margin: 0; font-size: 27px; line-height: 1.35; }
   .stat small { display: block; font-size: 17px; color: #7a6a8a; margin-top: 6px; font-weight: 700; }
-  #s2 .who { margin-top: 30px; font-size: 28px; line-height: 1.4; border-left: 8px solid var(--amber); padding-left: 22px; }
+  #s2 .who { margin-top: 34px; font-size: 28px; line-height: 1.4; border-left: 8px solid var(--amber); padding-left: 22px; }
   #s2 .art { right: 70px; top: 90px; width: 500px; height: 700px; border-radius: 28px; box-shadow: 0 30px 70px #2b214044; }
-  #s2 .foot, #s2 .num { color: #2b214066; }
+  #s2 .num { color: #2b214066; }
 
   /* 3 how */
   #s3 .copy { position: absolute; left: 80px; top: 70px; right: 80px; }
@@ -57,22 +57,22 @@
   .box ul { margin: 0; padding-left: 22px; font-size: 21px; line-height: 1.5; }
   .box.hl { border-color: #ffb54c88; box-shadow: 0 0 0 4px #ffb54c22; }
   .arrow { display: grid; place-items: center; color: var(--amber); font-size: 40px; font-weight: 800; }
-  .guards { margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-  .guards .label { font-weight: 800; font-size: 20px; color: var(--muted); margin-right: 6px; }
+  .guards { margin-top: 34px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; max-width: 880px; }
+  .guards .label { font-weight: 800; font-size: 20px; color: var(--muted); margin-right: 6px; width: 100%; }
   .guards .chip { background: #ffb54c1f; border-color: #ffb54c55; color: #ffd9a0; }
-  #s3 .demo { position: absolute; right: 80px; bottom: 90px; width: 420px; height: 236px; border-radius: 18px; box-shadow: 0 20px 50px #0009; border: 2px solid #ffffff22; }
+  #s3 .demo { position: absolute; right: 80px; bottom: 56px; width: 420px; height: 236px; border-radius: 18px; box-shadow: 0 20px 50px #0009; border: 2px solid #ffffff22; object-fit: cover; }
 
   /* 4 why */
   #s4 .art { inset: 0; }
-  #s4 .veil { position: absolute; inset: 0; background: linear-gradient(0deg, #0b0f2cf8 10%, #0b0f2cb0 55%, #0b0f2c55 100%); }
+  #s4 .veil { position: absolute; inset: 0; background: linear-gradient(0deg, #0b0f2cf2 12%, #0b0f2c99 55%, #0b0f2c33 100%); }
   #s4 .copy { position: absolute; left: 90px; right: 90px; bottom: 110px; }
-  #s4 h2 { font-size: 84px; margin: 12px 0 30px; line-height: 1.02; }
+  #s4 h2 { font-size: 84px; margin: 12px 0 30px; line-height: 1.02; text-shadow: 0 4px 24px #0008; }
   .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
   .col { background: #0b0f2ccc; border: 1px solid #ffffff22; border-radius: 22px; padding: 22px 24px; backdrop-filter: blur(6px); }
   .col h3 { margin: 0 0 8px; font-size: 28px; color: var(--amber); }
   .col p { margin: 0; font-size: 21px; line-height: 1.45; }
 
-  .hint { position: fixed; right: 14px; bottom: 10px; color: #ffffff44; font-size: 12px; }
+  .hint { position: fixed; right: 14px; bottom: 10px; color: #ffffff33; font-size: 12px; }
 </style>
 </head>
 <body>
@@ -98,7 +98,7 @@
     <div class="copy">
       <div class="eyebrow">The problem</div>
       <h2 class="serif">Bedtime stories are quietly disappearing.</h2>
-      <div class="stat"><div class="big">41%</div><p>of UK parents of children aged 0–4 read to them frequently, down from 64% in 2012.<small>HarperCollins UK / NielsenIQ BookData survey, 2025 (via Education Week)</small></p></div>
+      <div class="stat"><div class="big">41%</div><p>of UK parents of children aged 0–4 read to them frequently, down from 64% in 2012.<small>HarperCollins UK survey, 2025 (via Education Week)</small></p></div>
       <div class="stat"><div class="big">290k</div><p>more words heard by age 5 by children read just one book a day.<small>Logan et al., Journal of Developmental &amp; Behavioral Pediatrics, 2019</small></p></div>
       <div class="who"><b>Who it's for:</b> tired parents of 3–8 year olds who want bedtime to be connection, not another screen.</div>
     </div>
@@ -130,7 +130,7 @@
         </div>
       </div>
       <div class="guards">
-        <span class="label">Parent guardrails</span>
+        <span class="label">Parent guardrails, enforced in Strands hooks</span>
         <span class="chip">Gentle themes only</span><span class="chip">3 pages per night</span><span class="chip">Parent approves purchases</span><span class="chip">Child data stays in the profile</span>
       </div>
     </div>
@@ -158,7 +158,11 @@
 <script>
   const slides = [...document.querySelectorAll('.slide')];
   let i = Math.min(Math.max(parseInt(new URLSearchParams(location.search).get('s') || '1', 10), 1), slides.length) - 1;
-  function show() { slides.forEach((s, k) => s.classList.toggle('on', k === i)); }
+  function show() {
+    slides.forEach((s, k) => s.classList.toggle('on', k === i));
+    // Letterbox bands (non-16:9 windows) take the slide's own ground color.
+    document.body.style.background = slides[i].id === 's2' ? '#fbefd6' : slides[i].id === 's1' ? '#10143a' : '#0c1030';
+  }
   function fit() { document.getElementById('stage').style.setProperty('--s', Math.min(innerWidth / 1600, innerHeight / 900)); }
   addEventListener('resize', fit);
   addEventListener('keydown', (e) => {

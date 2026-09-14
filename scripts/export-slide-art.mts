@@ -9,7 +9,7 @@ fs.mkdirSync(out, { recursive: true });
 
 const art = {
   cover: illustrate({ scene: "starry_meadow", timeOfDay: "dusk", cast: [{ name: "Luna", kind: "child" }, { name: "Pip", kind: "fox" }], props: ["lantern"], mood: "wonder", seed: "cover" }),
-  whale: illustrate({ scene: "cloud_kingdom", timeOfDay: "night", cast: [{ name: "Luna", kind: "child" }, { name: "Sky Whale", kind: "whale" }], props: ["star_jar"], mood: "wonder", seed: "whale" }),
+  whale: illustrate({ scene: "moonlit_seaside", timeOfDay: "night", cast: [{ name: "Sky Whale", kind: "whale" }, { name: "Luna", kind: "child" }], props: [], mood: "wonder", seed: "whale" }),
   dragon: illustrate({ scene: "snowy_hill", timeOfDay: "night", cast: [{ name: "Luna", kind: "child" }, { name: "Ember", kind: "dragon" }, { name: "Bramble", kind: "hedgehog" }], props: ["blanket"], mood: "silly", seed: "dragon" }),
   sleepy: illustrate({ scene: "cozy_treehouse", timeOfDay: "moonrise", cast: [{ name: "Luna", kind: "child" }, { name: "Pip", kind: "fox" }], props: ["storybook"], mood: "sleepy", seed: "sleepy" }),
 };
