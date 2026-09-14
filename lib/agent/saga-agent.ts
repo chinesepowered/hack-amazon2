@@ -181,7 +181,7 @@ export async function runSagaTurn(opts: {
         `${utterance}\n\n[Parent guardrail: gentle themes only for ages ${family.settings.ageBand}. The child asked for something scary. ` +
         `Do not include it or repeat the scary words. ` +
         (pagesLeft > 0
-          ? "Call tell_story_page with ONE cozy page where a friendly, sleepy dragon appears instead (use cast members; do not add a new character), then offer_choices."
+          ? "First call add_character for a friendly, sleepy dragon (kind dragon, a gentle name, a cozy trait). Then call tell_story_page with ONE cozy page that includes that dragon by name in characters, then offer_choices (or end_chapter if that page reaches tonight's limit)."
           : "Call end_chapter with a sleepy, happy ending.") +
         " In your spoken reply, kindly say the story stays cozy at bedtime.]";
     }

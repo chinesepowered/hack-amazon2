@@ -17,13 +17,14 @@ export function seedFamily(id: string, familyName: string, childFirstName: strin
       { name: child, kind: "child", trait: "brave, curious, loves the color teal", addedOnNight: 1 },
       { name: "Pip", kind: "fox", trait: `${child}'s best friend; carries a lantern that hums when someone is brave`, addedOnNight: 1 },
       { name: "Bramble", kind: "hedgehog", trait: "reads the stars and collects lost buttons", addedOnNight: 1 },
+      { name: "Moonsong", kind: "whale", trait: "a gentle sky whale who hums the moon to sleep", addedOnNight: 1 },
     ],
     favorites: ["whales", "hot cocoa", "the color teal"],
     chapters: [
       {
         night: 1,
         title: "The Map in the Lantern",
-        summary: `${child} and Pip found a glowing map folded inside Pip's lantern. Bramble read the stars on it: they point to the Cloud Kingdom, where a sky whale sings the moon to sleep.`,
+        summary: `${child} and Pip found a glowing map folded inside Pip's lantern. Bramble read the stars on it: they point to the Cloud Kingdom, where Moonsong the sky whale hums the moon to sleep.`,
         cliffhanger: "The map's last star blinked twice, and a long, low hum drifted down from the clouds.",
         endedAt: night1,
         pages: [
