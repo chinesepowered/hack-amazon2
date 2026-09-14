@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bedtime Saga architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Nunito:wght@600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; width: 1600px; height: 1000px; background: radial-gradient(circle at 40% 30%, #1d2254, #0b0e28 75%); color: #fff4dc; font-family: Nunito, system-ui, sans-serif; position: relative; overflow: hidden; }
+  h1 { font-family: Fraunces, Georgia, serif; font-size: 44px; margin: 0; position: absolute; left: 56px; top: 30px; }
+  .sub { position: absolute; left: 58px; top: 90px; color: #b9b3d6; font-size: 19px; font-weight: 600; }
+  .zone { position: absolute; border: 2px dashed #ffffff26; border-radius: 26px; }
+  .zone > .zl { position: absolute; bottom: -13px; left: 22px; background: #0f1233; padding: 0 12px; font-weight: 800; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: #b9b3d6; }
+  .node { position: absolute; background: #161b48; border: 1.5px solid #ffffff2a; border-radius: 18px; padding: 16px 18px; }
+  .node h3 { margin: 0 0 4px; font-family: Fraunces, Georgia, serif; font-size: 23px; }
+  .node .t { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #ffb54c; margin-bottom: 8px; }
+  .node ul { margin: 0; padding-left: 18px; font-size: 15.5px; line-height: 1.45; color: #e7e1f5; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 14px; }
+  .strands { border-color: #ffb54caa; box-shadow: 0 0 0 5px #ffb54c1f; }
+  .mcp { border-color: #7fd8ffaa; box-shadow: 0 0 0 5px #7fd8ff1a; }
+  svg.wires { position: absolute; inset: 0; pointer-events: none; }
+  .lbl { position: absolute; font-size: 14px; font-weight: 800; color: #ffd9a0; background: #0b0e28; padding: 3px 9px; border-radius: 8px; border: 1px solid #ffb54c44; white-space: nowrap; }
+  .lbl.b { color: #9fe3ff; border-color: #7fd8ff44; }
+  .legend { position: absolute; right: 56px; top: 40px; display: flex; gap: 18px; font-weight: 800; font-size: 15px; color: #b9b3d6; }
+  .legend i { display: inline-block; width: 14px; height: 14px; border-radius: 4px; margin-right: 6px; vertical-align: -2px; }
+</style>
+</head>
+<body>
+<h1>Bedtime Saga · architecture</h1>
+<div class="sub">An Alexa+ add-on: self-hosted MCP server (spec 2025-11-25, Streamable HTTP) + MCP Apps UI, driven by a Strands Agents storyteller</div>
+<div class="legend"><span><i style="background:#ffb54c"></i>Strands Agents SDK</span><span><i style="background:#7fd8ff"></i>MCP</span></div>
+
+<div class="zone" style="left:40px;top:150px;width:430px;height:800px"><span class="zl">Browser · simulated Alexa+ device</span></div>
+<div class="zone" style="left:510px;top:150px;width:1050px;height:800px"><span class="zl">Next.js on Vercel (Node runtime)</span></div>
+
+<div class="node" style="left:70px;top:190px;width:370px;height:230px">
+  <div class="t">Smart display host</div><h3>components/SagaDevice.tsx</h3>
+  <ul><li>Push-to-talk (Web Speech API), spoken replies, captions</li><li>MCP host: <span class="mono">@modelcontextprotocol/client</span></li><li>Live activity feed: tool calls + guardrail verdicts</li><li>Account linking: OAuth 2.1 + PKCE (S256)</li></ul>
+</div>
+<div class="node mcp" style="left:70px;top:470px;width:370px;height:250px">
+  <div class="t">MCP App · sandboxed iframe</div><h3 style="font-size:20px">ui://bedtime-saga/storybook.html</h3>
+  <ul><li>Official <span class="mono">AppBridge</span> ↔ <span class="mono">App</span> over postMessage</li><li>Recap, illustrated page turns, choices, saga book, keepsake checkout</li><li>Child taps a choice / parent taps Confirm → <span class="mono">ui/message</span></li></ul>
+</div>
+<div class="node" style="left:70px;top:780px;width:370px;height:140px">
+  <div class="t">Real Alexa+ (when access opens)</div><h3>Same MCP URL</h3>
+  <ul><li>Alexa+ as the MCP client + UI host</li><li>Uses the same OAuth metadata + tools</li></ul>
+</div>
+
+<div class="node strands" style="left:560px;top:190px;width:470px;height:330px">
+  <div class="t">POST /api/assistant · NDJSON stream</div><h3>Strands storyteller agent</h3>
+  <ul>
+    <li><span class="mono">Agent</span> + <span class="mono">OpenAIModel</span> (OpenAI-compatible endpoint, Qwen3.8-27B, temp 0)</li>
+    <li><span class="mono">McpClient</span> → our MCP server with the family's bearer token</li>
+    <li>Request screen before invoke (steer, don't refuse)</li>
+    <li><span class="mono">BeforeToolCallEvent</span>: gentle themes, bedtime page limit, story flow, parent-approved purchases</li>
+    <li><span class="mono">BeforeModelCallEvent</span>: 8-call step cap · <span class="mono">AfterToolCallEvent</span>: refresh profile</li>
+  </ul>
+</div>
+<div class="node" style="left:1080px;top:190px;width:450px;height:190px">
+  <div class="t">OAuth 2.1 authorization server</div><h3>Account linking</h3>
+  <ul><li><span class="mono">/oauth/authorize</span> (code + PKCE S256), <span class="mono">/oauth/token</span></li><li><span class="mono">/.well-known/oauth-authorization-server</span></li><li><span class="mono">/.well-known/oauth-protected-resource</span> (RFC 9728)</li></ul>
+</div>
+<div class="node mcp" style="left:560px;top:590px;width:540px;height:330px">
+  <div class="t">POST /api/mcp · Streamable HTTP · stateless</div><h3>Bedtime Saga MCP server</h3>
+  <ul>
+    <li>Bearer auth (401 + <span class="mono">WWW-Authenticate</span>), Origin check (403)</li>
+    <li>8 tools with structured output: <span class="mono">get_saga_recap · tell_story_page · offer_choices · add_character · end_chapter · open_saga_book · preview_keepsake_book · confirm_keepsake_order</span></li>
+    <li>Guardrails re-checked server-side (defense in depth)</li>
+    <li>Registers the MCP App resource via <span class="mono">@modelcontextprotocol/ext-apps</span></li>
+    <li>Deterministic layered-SVG illustrator: 12 scenes × 12 characters × 8 props</li>
+  </ul>
+</div>
+<div class="node" style="left:1180px;top:590px;width:350px;height:190px">
+  <div class="t">Private family profile</div><h3>Vercel Blob (private)</h3>
+  <ul><li>Cast, favorites, chapters, tonight's pages, parent settings, orders</li><li>Keyed by an unguessable family id</li></ul>
+</div>
+<div class="node" style="left:1180px;top:820px;width:350px;height:100px">
+  <div class="t">Model provider (swappable)</div><h3 style="font-size:19px">OpenAI-compatible · Qwen3.8-27B</h3>
+</div>
+
+<svg class="wires" viewBox="0 0 1600 1000">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffb54c"/></marker>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7fd8ff"/></marker>
+  </defs>
+  <!-- utterance: host -> agent -->
+  <path d="M440 300 L560 300" stroke="#ffb54c" stroke-width="3" fill="none" marker-end="url(#a)"/>
+  <!-- OAuth: host -> auth server, above the boxes -->
+  <path d="M300 190 C 300 160, 340 165, 520 165 L 1280 165 C 1300 165, 1305 175, 1305 188" stroke="#ffb54c" stroke-width="2.5" stroke-dasharray="7 6" fill="none" marker-end="url(#a)"/>
+  <!-- agent -> MCP server -->
+  <path d="M800 520 L800 590" stroke="#7fd8ff" stroke-width="3" fill="none" marker-end="url(#b)"/>
+  <!-- MCP App <-> MCP server -->
+  <path d="M440 620 C 500 620, 500 700, 560 700" stroke="#7fd8ff" stroke-width="3" fill="none" marker-start="url(#b)" marker-end="url(#b)"/>
+  <!-- MCP server -> blob -->
+  <path d="M1100 680 L1180 680" stroke="#ffb54c" stroke-width="3" fill="none" marker-end="url(#a)"/>
+  <!-- agent -> model: down the gap between server and blob -->
+  <path d="M1030 470 L1140 470 L1140 870 L1180 870" stroke="#ffb54c" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+  <!-- host -> MCP app -->
+  <path d="M255 420 L255 470" stroke="#7fd8ff" stroke-width="3" fill="none" marker-end="url(#b)"/>
+  <!-- future Alexa+ -> MCP server -->
+  <path d="M440 850 C 500 850, 500 850, 560 850" stroke="#7fd8ff" stroke-width="2.5" stroke-dasharray="7 6" fill="none" marker-end="url(#b)"/>
+</svg>
+<div class="lbl" style="left:452px;top:312px">utterance</div>
+<div class="lbl" style="left:700px;top:151px">OAuth code + PKCE → bearer token</div>
+<div class="lbl b" style="left:812px;top:540px">tools/call · Bearer</div>
+<div class="lbl b" style="left:240px;top:733px">resources/read · tool results · ui/message</div>
+<div class="lbl" style="left:1106px;top:646px">r/w</div>
+<div class="lbl" style="left:1150px;top:440px">chat completions</div>
+<div class="lbl b" style="left:452px;top:866px">future</div>
+</body>
+</html>

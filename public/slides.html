@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bedtime Saga · pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito:wght@500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#2b2140; --paper:#fff4dc; --paper2:#f7e7c4; --amber:#ffb54c; --rose:#f2998c; --sage:#8fc0a0; --muted:#b9b3d6; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body { background: radial-gradient(circle at 50% 40%, #1a1f4d, #0a0d26 75%); color: var(--paper); font-family: Nunito, "Trebuchet MS", system-ui, sans-serif; }
+  .serif { font-family: Fraunces, Georgia, serif; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+  .stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform: translate(-50%, -50%) scale(var(--s, 1)); }
+  .slide { position: absolute; inset: 0; display: none; overflow: hidden; }
+  .slide.on { display: block; animation: fade .6s ease both; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  .art { position: absolute; overflow: hidden; }
+  .art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .eyebrow { font-weight: 800; letter-spacing: .14em; text-transform: uppercase; font-size: 18px; color: var(--amber); }
+  .chip { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #ffffff26; background: #ffffff10; padding: 10px 18px; border-radius: 999px; font-weight: 800; font-size: 19px; }
+  .num { position: absolute; right: 56px; bottom: 36px; font-weight: 800; color: #ffffff55; font-size: 18px; }
+  .foot { position: absolute; left: 70px; bottom: 36px; color: #ffffff66; font-weight: 700; font-size: 17px; }
+
+  /* 1 cover */
+  #s1 .art { inset: 0; }
+  #s1 .veil { position: absolute; inset: 0; background: linear-gradient(90deg, #0b0f2cf5 0%, #0b0f2cd0 42%, #0b0f2c10 75%); }
+  #s1 .copy { position: absolute; left: 90px; top: 150px; width: 820px; }
+  #s1 h1 { font-size: 132px; line-height: .95; margin: 18px 0 26px; letter-spacing: -.02em; }
+  #s1 .hook { font-size: 40px; line-height: 1.25; margin: 0 0 36px; }
+  #s1 .hook b { color: var(--amber); font-weight: 800; }
+  #s1 .chips { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* 2 problem */
+  #s2 { background: linear-gradient(180deg, var(--paper), var(--paper2)); color: var(--ink); }
+  #s2 .copy { position: absolute; left: 90px; top: 90px; width: 900px; }
+  #s2 h2 { font-size: 72px; line-height: 1.05; margin: 14px 0 34px; }
+  #s2 .eyebrow { color: #a8662a; }
+  .stat { display: flex; gap: 26px; align-items: baseline; margin: 0 0 26px; }
+  .stat .big { font-family: Fraunces, Georgia, serif; font-size: 96px; font-weight: 700; color: #c2573f; min-width: 250px; line-height: 1; }
+  .stat p { margin: 0; font-size: 27px; line-height: 1.35; }
+  .stat small { display: block; font-size: 17px; color: #7a6a8a; margin-top: 6px; font-weight: 700; }
+  #s2 .who { margin-top: 30px; font-size: 28px; line-height: 1.4; border-left: 8px solid var(--amber); padding-left: 22px; }
+  #s2 .art { right: 70px; top: 90px; width: 500px; height: 700px; border-radius: 28px; box-shadow: 0 30px 70px #2b214044; }
+  #s2 .foot, #s2 .num { color: #2b214066; }
+
+  /* 3 how */
+  #s3 .copy { position: absolute; left: 80px; top: 70px; right: 80px; }
+  #s3 h2 { font-size: 62px; margin: 12px 0 34px; line-height: 1.05; }
+  .flow { display: grid; grid-template-columns: 1fr 70px 1fr 70px 1fr; align-items: stretch; }
+  .box { background: #151a44; border: 1px solid #ffffff22; border-radius: 24px; padding: 24px 26px; }
+  .box h3 { margin: 0 0 6px; font-size: 30px; }
+  .box .tag { font-size: 16px; color: var(--muted); font-weight: 800; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 12px; }
+  .box ul { margin: 0; padding-left: 22px; font-size: 21px; line-height: 1.5; }
+  .box.hl { border-color: #ffb54c88; box-shadow: 0 0 0 4px #ffb54c22; }
+  .arrow { display: grid; place-items: center; color: var(--amber); font-size: 40px; font-weight: 800; }
+  .guards { margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .guards .label { font-weight: 800; font-size: 20px; color: var(--muted); margin-right: 6px; }
+  .guards .chip { background: #ffb54c1f; border-color: #ffb54c55; color: #ffd9a0; }
+  #s3 .demo { position: absolute; right: 80px; bottom: 90px; width: 420px; height: 236px; border-radius: 18px; box-shadow: 0 20px 50px #0009; border: 2px solid #ffffff22; }
+
+  /* 4 why */
+  #s4 .art { inset: 0; }
+  #s4 .veil { position: absolute; inset: 0; background: linear-gradient(0deg, #0b0f2cf8 10%, #0b0f2cb0 55%, #0b0f2c55 100%); }
+  #s4 .copy { position: absolute; left: 90px; right: 90px; bottom: 110px; }
+  #s4 h2 { font-size: 84px; margin: 12px 0 30px; line-height: 1.02; }
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .col { background: #0b0f2ccc; border: 1px solid #ffffff22; border-radius: 22px; padding: 22px 24px; backdrop-filter: blur(6px); }
+  .col h3 { margin: 0 0 8px; font-size: 28px; color: var(--amber); }
+  .col p { margin: 0; font-size: 21px; line-height: 1.45; }
+
+  .hint { position: fixed; right: 14px; bottom: 10px; color: #ffffff44; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <section class="slide" id="s1">
+    <div class="art"><img src="/slides-art/cover.svg" alt=""></div>
+    <div class="veil"></div>
+    <div class="copy">
+      <div class="eyebrow">An Alexa+ add-on</div>
+      <h1 class="serif">Bedtime Saga</h1>
+      <p class="hook">A bedtime story that <b>remembers</b>. Your child's own saga continues night after night, and your child decides what happens next.</p>
+      <div class="chips">
+        <span class="chip">MCP 2025-11-25 · Streamable HTTP</span>
+        <span class="chip">MCP Apps storybook</span>
+        <span class="chip">Strands Agents SDK</span>
+      </div>
+    </div>
+    <div class="num">1 / 4</div>
+  </section>
+
+  <section class="slide" id="s2">
+    <div class="copy">
+      <div class="eyebrow">The problem</div>
+      <h2 class="serif">Bedtime stories are quietly disappearing.</h2>
+      <div class="stat"><div class="big">41%</div><p>of UK parents of children aged 0–4 read to them frequently, down from 64% in 2012.<small>HarperCollins UK / NielsenIQ BookData survey, 2025 (via Education Week)</small></p></div>
+      <div class="stat"><div class="big">290k</div><p>more words heard by age 5 by children read just one book a day.<small>Logan et al., Journal of Developmental &amp; Behavioral Pediatrics, 2019</small></p></div>
+      <div class="who"><b>Who it's for:</b> tired parents of 3–8 year olds who want bedtime to be connection, not another screen.</div>
+    </div>
+    <div class="art"><img src="/slides-art/whale.svg" alt=""></div>
+    <div class="num">2 / 4</div>
+  </section>
+
+  <section class="slide" id="s3">
+    <div class="copy">
+      <div class="eyebrow">How it works</div>
+      <h2 class="serif">One MCP server. Real memory. Guardrails in code.</h2>
+      <div class="flow">
+        <div class="box">
+          <div class="tag">Alexa+ smart display (simulated)</div>
+          <h3 class="serif">Voice + MCP App</h3>
+          <ul><li>Push-to-talk, spoken replies</li><li>Renders the <span class="mono">ui://</span> storybook via AppBridge</li><li>Taps send <span class="mono">ui/message</span></li></ul>
+        </div>
+        <div class="arrow">→</div>
+        <div class="box hl">
+          <div class="tag">AWS · Strands Agents SDK</div>
+          <h3 class="serif">Storyteller agent</h3>
+          <ul><li>Strands <span class="mono">McpClient</span> over Streamable HTTP</li><li><span class="mono">BeforeToolCallEvent</span> parent guardrails</li><li>Step cap + request screening</li></ul>
+        </div>
+        <div class="arrow">→</div>
+        <div class="box">
+          <div class="tag">Self-hosted MCP server</div>
+          <h3 class="serif">Bedtime Saga add-on</h3>
+          <ul><li>8 tools, OAuth 2.1 + PKCE linking</li><li>Private family profile (Vercel Blob)</li><li>Deterministic SVG illustrations</li></ul>
+        </div>
+      </div>
+      <div class="guards">
+        <span class="label">Parent guardrails</span>
+        <span class="chip">Gentle themes only</span><span class="chip">3 pages per night</span><span class="chip">Parent approves purchases</span><span class="chip">Child data stays in the profile</span>
+      </div>
+    </div>
+    <img class="demo" src="/slides-art/dragon.svg" alt="">
+    <div class="num">3 / 4</div>
+  </section>
+
+  <section class="slide" id="s4">
+    <div class="art"><img src="/slides-art/sleepy.svg" alt=""></div>
+    <div class="veil"></div>
+    <div class="copy">
+      <div class="eyebrow">Why it matters</div>
+      <h2 class="serif">Twenty cozy minutes, every night,<br>that a child helped write.</h2>
+      <div class="cols">
+        <div class="col"><h3>For families</h3><p>The story remembers the characters your child invents, so bedtime becomes something they ask for.</p></div>
+        <div class="col"><h3>A real business</h3><p>Saga Plus family subscription, plus printed keepsake books of the saga, ordered only with a parent's tap.</p></div>
+        <div class="col"><h3>Ready for Alexa+</h3><p>A standard MCP server with account linking and MCP Apps: the same URL plugs into Alexa+ when access opens.</p></div>
+      </div>
+    </div>
+    <div class="num">4 / 4</div>
+  </section>
+
+</div>
+<div class="hint">← → to navigate</div>
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  let i = Math.min(Math.max(parseInt(new URLSearchParams(location.search).get('s') || '1', 10), 1), slides.length) - 1;
+  function show() { slides.forEach((s, k) => s.classList.toggle('on', k === i)); }
+  function fit() { document.getElementById('stage').style.setProperty('--s', Math.min(innerWidth / 1600, innerHeight / 900)); }
+  addEventListener('resize', fit);
+  addEventListener('keydown', (e) => {
+    if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) { i = Math.min(i + 1, slides.length - 1); show(); }
+    if (['ArrowLeft', 'PageUp'].includes(e.key)) { i = Math.max(i - 1, 0); show(); }
+  });
+  fit(); show();
+</script>
+</body>
+</html>
