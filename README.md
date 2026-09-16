@@ -102,4 +102,4 @@ npx @modelcontextprotocol/inspector --cli http://localhost:3000/api/mcp --transp
 
 ## License
 
-TBD before submission.
+[AGPL-3.0](LICENSE). Commercial licences are available from the author. The Bedtime Saga name and logo are not covered by the licence — see [TRADEMARKS.md](TRADEMARKS.md).
